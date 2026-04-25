@@ -16,7 +16,7 @@
 <div align="center">
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-![DESIGN.md Count](https://img.shields.io/badge/DESIGN.md%20count-59-10b981?style=classic)
+![DESIGN.md Count](https://img.shields.io/badge/DESIGN.md%20count-60-10b981?style=classic)
 [![Last Update](https://img.shields.io/github/last-commit/waylongo/awesome-design-md?label=Last%20update&style=classic)](https://github.com/waylongo/awesome-design-md)
 [![Discord](https://img.shields.io/discord/1361559153780195478.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://s.voltagent.dev/discord)
 
@@ -166,6 +166,7 @@ This fork is intended for continued development from the preserved file-based ve
 - [**Spotify**](https://github.com/waylongo/awesome-design-md/tree/main/design-md/spotify/) - Music streaming. Vibrant green on dark, bold type, album-art-driven
 - [**Uber**](https://github.com/waylongo/awesome-design-md/tree/main/design-md/uber/) - Mobility platform. Bold black and white, tight type, urban energy
 - [**Xiaomi**](https://github.com/waylongo/awesome-design-md/tree/main/design-md/xiaomi/) - Consumer electronics. Mi Orange accent, rounded product tiles, soft retail surfaces
+- [**Xiaomi Wearables**](https://github.com/waylongo/awesome-design-md/tree/main/design-md/xiaomi-wearables/) - Wearable devices. AMOLED dashboards, health metrics, sport chips, activity rings
 
 ### Car Brands
 

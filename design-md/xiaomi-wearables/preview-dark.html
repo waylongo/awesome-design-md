@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System Inspired by Xiaomi Wearables - Dark Mode</title>
+<style>
+  @font-face {
+    font-family: 'MiSans';
+    src: local('MiSans'), local('MiSans Latin'), local('Xiaomi Brand');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+  :root {
+    --orange: #ff6900;
+    --orange-hover: #e95f00;
+    --orange-soft: #fff3eb;
+    --orange-glow: rgba(255,105,0,0.28);
+    --amoled: #050505;
+    --graphite-page: #0d0d0d;
+    --graphite-card: #151515;
+    --graphite-raised: #1f1f1f;
+    --graphite-border: #2a2a2a;
+    --page-gray: #0d0d0d;
+    --card-white: #151515;
+    --warm-surface: #1f1f1f;
+    --light-border: #2a2a2a;
+    --text-primary: #f5f5f5;
+    --text-secondary: #b8b8b8;
+    --text-muted: #787878;
+    --text-dark: #f5f5f5;
+    --text-dark-secondary: #b8b8b8;
+    --heart: #ff4d4f;
+    --activity: #23c55e;
+    --sleep: #8b5cf6;
+    --gps: #1d9bf0;
+    --energy: #f6b100;
+    --oxygen: #22d3ee;
+    --shadow-card: 0 12px 32px rgba(0,0,0,0.28);
+    --shadow-hover: 0 18px 46px rgba(0,0,0,0.38);
+    --shadow-watch: 0 30px 80px rgba(0,0,0,0.45);
+    --focus-ring: 0 0 0 4px rgba(255,105,0,0.28);
+    --font-primary: 'MiSans', 'Arial', 'Helvetica Neue', Helvetica, system-ui, sans-serif;
+    --font-mono: SFMono-Regular, 'Roboto Mono', Menlo, ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--page-gray);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    background: rgba(5,5,5,0.86);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--light-border);
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .mi-mark {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    background: var(--orange);
+    color: #fff;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--orange); }
+  .dark-badge {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 20;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: var(--orange);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: var(--shadow-watch);
+  }
+  .hero {
+    max-width: 1440px;
+    margin: 24px auto 0;
+    padding: 0 24px;
+  }
+  .hero-card {
+    min-height: 610px;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+    gap: 44px;
+    padding: 64px;
+    overflow: hidden;
+    border-radius: 34px;
+    background:
+      radial-gradient(circle at 79% 28%, rgba(255,105,0,0.20), transparent 30%),
+      linear-gradient(135deg, #151515 0%, #0d0d0d 52%, #050505 100%);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    margin-bottom: 18px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: var(--orange-soft);
+    color: var(--orange);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  h1 {
+    max-width: 540px;
+    color: var(--text-primary);
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.4px;
+    margin-bottom: 18px;
+  }
+  .hero p {
+    max-width: 500px;
+    color: var(--text-secondary);
+    font-size: 18px;
+    line-height: 1.45;
+    margin-bottom: 28px;
+  }
+  .button-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 24px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .btn-orange { background: var(--orange); color: #fff; }
+  .btn-orange:hover { background: var(--orange-hover); }
+  .btn-light { background: var(--graphite-raised); color: var(--text-primary); border-color: var(--graphite-border); }
+  .btn-light:hover { background: #262626; }
+  .watch-stage {
+    min-height: 470px;
+    display: grid;
+    place-items: center;
+    position: relative;
+  }
+  .watch-body {
+    position: relative;
+    width: min(330px, 58vw);
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #2c2c2c, #0d0d0d);
+    box-shadow: var(--shadow-watch);
+  }
+  .watch-face {
+    position: relative;
+    width: 82%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at center, rgba(255,105,0,0.16), transparent 44%),
+      var(--amoled);
+    color: #fff;
+  }
+  .ring {
+    position: absolute;
+    inset: 20px;
+    border-radius: 50%;
+    background:
+      conic-gradient(var(--orange) 0 42%, var(--heart) 42% 68%, var(--sleep) 68% 82%, rgba(255,255,255,0.12) 82% 100%);
+  }
+  .ring::after {
+    content: "";
+    position: absolute;
+    inset: 13px;
+    border-radius: 50%;
+    background: var(--amoled);
+  }
+  .watch-metric {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    text-align: center;
+  }
+  .watch-metric strong {
+    display: block;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .watch-metric span {
+    display: block;
+    margin-top: 8px;
+    color: var(--text-dark-secondary);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+  }
+  .complication {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    min-width: 48px;
+    min-height: 28px;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.10);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+  }
+  .complication.heart { top: 62px; left: 50%; transform: translateX(-50%); color: var(--heart); }
+  .complication.battery { bottom: 54px; right: 54px; color: var(--energy); }
+  .complication.sleep { bottom: 54px; left: 54px; color: var(--sleep); }
+  .band-preview {
+    position: absolute;
+    right: 6%;
+    bottom: 2%;
+    width: 92px;
+    height: 206px;
+    border-radius: 48px;
+    background: #111;
+    border: 10px solid #222;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.22);
+  }
+  .band-preview::after {
+    content: "98";
+    position: absolute;
+    inset: 28px 10px;
+    display: grid;
+    place-items: center;
+    border-radius: 36px;
+    background: var(--amoled);
+    color: var(--oxygen);
+    font-size: 30px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+  .section-label {
+    margin-bottom: 8px;
+    color: var(--orange);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .section-title {
+    margin-bottom: 28px;
+    color: var(--text-primary);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.12;
+  }
+  .color-group-label {
+    margin: 24px 0 12px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 800;
+  }
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+  }
+  .color-swatch {
+    overflow: hidden;
+    background: var(--card-white);
+    border: 1px solid var(--light-border);
+    border-radius: 22px;
+    box-shadow: var(--shadow-card);
+  }
+  .color-block { height: 76px; }
+  .color-info { padding: 12px 14px 14px; }
+  .color-name { color: var(--text-primary); font-size: 13px; font-weight: 800; }
+  .color-hex { margin-top: 2px; color: var(--text-muted); font-family: var(--font-mono); font-size: 12px; }
+  .color-role { margin-top: 4px; color: var(--text-secondary); font-size: 11px; }
+  .type-sample {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--light-border);
+  }
+  .type-meta {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+  }
+  .metric-card {
+    min-height: 190px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px;
+    border-radius: 24px;
+    background: var(--card-white);
+    box-shadow: var(--shadow-card);
+  }
+  .metric-card.large { grid-column: span 6; min-height: 260px; }
+  .metric-card.small { grid-column: span 3; }
+  .metric-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .metric-label {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .metric-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--orange);
+  }
+  .metric-value {
+    color: var(--text-primary);
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-card.small .metric-value { font-size: 34px; letter-spacing: 0; }
+  .metric-unit {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .trend {
+    display: flex;
+    align-items: end;
+    gap: 6px;
+    height: 54px;
+  }
+  .bar {
+    width: 10px;
+    min-height: 12px;
+    border-radius: 999px;
+    background: var(--orange);
+    opacity: 0.95;
+  }
+  .activity-ring {
+    width: 150px;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: conic-gradient(var(--orange), var(--heart), var(--sleep), rgba(255,255,255,0.12) 78% 100%);
+  }
+  .activity-ring::after {
+    content: "82%";
+    width: 108px;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--card-white);
+    color: var(--text-primary);
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .control-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+  }
+  .control-card {
+    min-height: 128px;
+    display: grid;
+    place-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: var(--card-white);
+    border-radius: 24px;
+    box-shadow: var(--shadow-card);
+    text-align: center;
+  }
+  .control-label {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1px solid var(--light-border);
+    background: var(--card-white);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 800;
+  }
+  .chip.active {
+    border-color: transparent;
+    background: var(--orange-soft);
+    color: var(--orange);
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .product-card {
+    min-height: 390px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px;
+    border-radius: 28px;
+    background: var(--card-white);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .product-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .product-visual {
+    height: 190px;
+    display: grid;
+    place-items: center;
+  }
+  .mini-watch {
+    width: 132px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 10px solid #232323;
+    background: conic-gradient(var(--orange) 0 64%, #333 64% 100%);
+    box-shadow: 0 20px 44px rgba(0,0,0,0.16);
+  }
+  .mini-band {
+    width: 76px;
+    height: 170px;
+    border-radius: 42px;
+    border: 9px solid #262626;
+    background: linear-gradient(180deg, #050505, #191919);
+    box-shadow: 0 20px 44px rgba(0,0,0,0.16);
+  }
+  .mini-band::after {
+    content: "7h";
+    display: grid;
+    place-items: center;
+    height: 100%;
+    color: var(--sleep);
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .mini-square {
+    width: 132px;
+    aspect-ratio: 1 / 1;
+    border-radius: 32px;
+    border: 10px solid #262626;
+    background: radial-gradient(circle at center, rgba(35,197,94,0.35), transparent 45%), #050505;
+    box-shadow: 0 20px 44px rgba(0,0,0,0.16);
+  }
+  .product-card h3 {
+    color: var(--text-primary);
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.12;
+    text-align: center;
+  }
+  .product-card p {
+    margin-top: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    text-align: center;
+  }
+  .price {
+    margin-top: 14px;
+    color: var(--orange);
+    font-size: 15px;
+    font-weight: 800;
+    text-align: center;
+  }
+  .spacing-row,
+  .radius-row,
+  .elevation-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+  }
+  .spacing-item,
+  .radius-item,
+  .elevation-card { text-align: center; }
+  .spacing-block {
+    height: 32px;
+    margin: 0 auto 8px;
+    border-radius: 999px;
+    background: var(--orange);
+  }
+  .spacing-value,
+  .radius-label,
+  .elevation-desc {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .radius-box {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 8px;
+    background: var(--orange);
+  }
+  .elevation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  }
+  .elevation-card {
+    min-height: 112px;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    background: var(--card-white);
+    border-radius: 24px;
+  }
+  .elevation-label {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 800;
+  }
+  .footer {
+    padding: 34px 24px;
+    color: var(--text-muted);
+    text-align: center;
+    font-size: 13px;
+  }
+  @media (max-width: 920px) {
+    .nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 16px; }
+    .hero-card {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding: 42px 24px;
+      text-align: center;
+    }
+    h1 { margin-inline: auto; font-size: 40px; }
+    .hero p { margin-inline: auto; }
+    .button-row { justify-content: center; }
+    .watch-stage { min-height: 360px; }
+    .band-preview { right: 0; width: 72px; height: 164px; }
+    .section { padding: 48px 20px; }
+    .section-title { font-size: 30px; }
+    .dashboard-grid,
+    .product-grid { grid-template-columns: 1fr; }
+    .metric-card.large,
+    .metric-card.small { grid-column: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="dark-badge">Dark Mode</div>
+
+<nav class="nav">
+  <a class="nav-brand" href="#"><span class="mi-mark">mi</span> Xiaomi Wearables</a>
+  <ul class="nav-links">
+    <li><a class="active" href="#colors">Colors</a></li>
+    <li><a href="#typography">Typography</a></li>
+    <li><a href="#metrics">Metrics</a></li>
+    <li><a href="#controls">Controls</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#elevation">Elevation</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="hero-card">
+      <div>
+        <div class="eyebrow">AMOLED health system</div>
+        <h1>Design System Inspired by Xiaomi Wearables</h1>
+        <p>A wearable-focused Xiaomi design language for watch faces, health metrics, sport chips, activity rings, and product cards.</p>
+        <div class="button-row">
+          <a class="btn btn-orange" href="#">Start workout</a>
+          <a class="btn btn-light" href="#">Browse faces</a>
+        </div>
+      </div>
+      <div class="watch-stage" aria-hidden="true">
+        <div class="watch-body">
+          <div class="watch-face">
+            <div class="ring"></div>
+            <div class="complication heart">128</div>
+            <div class="complication sleep">7h</div>
+            <div class="complication battery">86%</div>
+            <div class="watch-metric"><div><strong>8642</strong><span>STEPS</span></div></div>
+          </div>
+        </div>
+        <div class="band-preview"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="colors">
+    <div class="section-label">01 / Colors</div>
+    <h2 class="section-title">Wearable Color Palette</h2>
+
+    <div class="color-group-label">Brand &amp; AMOLED</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="color-block" style="background:#ff6900"></div><div class="color-info"><div class="color-name">Mi Orange</div><div class="color-hex">#ff6900</div><div class="color-role">Brand, CTA</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#050505"></div><div class="color-info"><div class="color-name">AMOLED Black</div><div class="color-hex">#050505</div><div class="color-role">Watch face</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#151515"></div><div class="color-info"><div class="color-name">Graphite Card</div><div class="color-hex">#151515</div><div class="color-role">Dark metric cards</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#f5f5f5"></div><div class="color-info"><div class="color-name">Page Gray</div><div class="color-hex">#f5f5f5</div><div class="color-role">Light surface</div></div></div>
+    </div>
+
+    <div class="color-group-label">Health Data</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="color-block" style="background:#ff4d4f"></div><div class="color-info"><div class="color-name">Heart Red</div><div class="color-hex">#ff4d4f</div><div class="color-role">Heart rate</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#23c55e"></div><div class="color-info"><div class="color-name">Activity Green</div><div class="color-hex">#23c55e</div><div class="color-role">Steps, goals</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#8b5cf6"></div><div class="color-info"><div class="color-name">Sleep Violet</div><div class="color-hex">#8b5cf6</div><div class="color-role">Sleep</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#1d9bf0"></div><div class="color-info"><div class="color-name">GPS Blue</div><div class="color-hex">#1d9bf0</div><div class="color-role">Distance</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#f6b100"></div><div class="color-info"><div class="color-name">Energy Amber</div><div class="color-hex">#f6b100</div><div class="color-role">Calories, battery</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#22d3ee"></div><div class="color-info"><div class="color-name">Oxygen Cyan</div><div class="color-hex">#22d3ee</div><div class="color-role">SpO2</div></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="typography">
+    <div class="section-label">02 / Typography</div>
+    <h2 class="section-title">Metric-First Type</h2>
+    <div class="type-sample"><div style="font-size:64px;font-weight:700;line-height:.95;letter-spacing:-.6px;font-variant-numeric:tabular-nums;">8,642</div><div class="type-meta">Watch Metric Hero - 64px / 700 / 0.95 / tabular</div></div>
+    <div class="type-sample"><div style="font-size:52px;font-weight:700;line-height:1.05;letter-spacing:-.4px;">Display Hero</div><div class="type-meta">52px / 700 / 1.05 / MiSans</div></div>
+    <div class="type-sample"><div style="font-size:40px;font-weight:700;line-height:1.1;">Dashboard Heading</div><div class="type-meta">40px / 700 / 1.10 / MiSans</div></div>
+    <div class="type-sample"><div style="font-size:28px;font-weight:700;line-height:1;">72 BPM</div><div class="type-meta">Metric Value - 28px / 700 / tabular</div></div>
+    <div class="type-sample"><div style="font-size:12px;font-weight:800;line-height:1;letter-spacing:.4px;color:var(--text-muted);">HEART RATE</div><div class="type-meta">Metric Label - 12px / 800 / uppercase</div></div>
+  </section>
+
+  <section class="section" id="metrics">
+    <div class="section-label">03 / Health Metrics</div>
+    <h2 class="section-title">Dashboard Cards</h2>
+    <div class="dashboard-grid">
+      <article class="metric-card large">
+        <div class="metric-top"><div class="metric-label">Daily Activity</div><span class="metric-dot"></span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;">
+          <div><div class="metric-value">8642</div><div class="metric-unit">steps today</div></div>
+          <div class="activity-ring"></div>
+        </div>
+      </article>
+      <article class="metric-card large">
+        <div class="metric-top"><div class="metric-label">Heart Rate</div><span class="metric-dot" style="background:var(--heart)"></span></div>
+        <div><div class="metric-value" style="color:var(--heart)">128</div><div class="metric-unit">BPM during run</div></div>
+        <div class="trend"><span class="bar" style="height:26px;background:var(--heart)"></span><span class="bar" style="height:38px;background:var(--heart)"></span><span class="bar" style="height:50px;background:var(--heart)"></span><span class="bar" style="height:32px;background:var(--heart)"></span><span class="bar" style="height:44px;background:var(--heart)"></span></div>
+      </article>
+      <article class="metric-card small"><div class="metric-top"><div class="metric-label">Sleep</div><span class="metric-dot" style="background:var(--sleep)"></span></div><div><div class="metric-value" style="color:var(--sleep)">7h 42m</div><div class="metric-unit">quality 91</div></div></article>
+      <article class="metric-card small"><div class="metric-top"><div class="metric-label">SpO2</div><span class="metric-dot" style="background:var(--oxygen)"></span></div><div><div class="metric-value" style="color:var(--oxygen)">98%</div><div class="metric-unit">normal</div></div></article>
+      <article class="metric-card small"><div class="metric-top"><div class="metric-label">Distance</div><span class="metric-dot" style="background:var(--gps)"></span></div><div><div class="metric-value" style="color:var(--gps)">5.8</div><div class="metric-unit">km outdoor run</div></div></article>
+      <article class="metric-card small"><div class="metric-top"><div class="metric-label">Battery</div><span class="metric-dot" style="background:var(--energy)"></span></div><div><div class="metric-value" style="color:var(--energy)">86%</div><div class="metric-unit">estimated 9 days</div></div></article>
+    </div>
+  </section>
+
+  <section class="section" id="controls">
+    <div class="section-label">04 / Controls</div>
+    <h2 class="section-title">Sport Chips &amp; Actions</h2>
+    <div class="control-panel">
+      <div class="control-card"><a class="btn btn-orange" href="#">Pair device</a><div class="control-label">Primary Orange Pill</div></div>
+      <div class="control-card"><a class="btn btn-light" href="#">Watch faces</a><div class="control-label">Light Pill</div></div>
+      <div class="control-card"><div class="chip active">Running</div><div class="control-label">Active Sport Chip</div></div>
+      <div class="control-card"><div class="chip">Swimming</div><div class="control-label">Inactive Sport Chip</div></div>
+    </div>
+    <div class="chip-row" style="margin-top:24px;">
+      <span class="chip active">Running</span><span class="chip">Cycling</span><span class="chip">Swimming</span><span class="chip">Strength</span><span class="chip">Sleep</span><span class="chip">Outdoor</span>
+    </div>
+  </section>
+
+  <section class="section" id="products">
+    <div class="section-label">05 / Product Cards</div>
+    <h2 class="section-title">Wearable Product Tiles</h2>
+    <div class="product-grid">
+      <article class="product-card"><div class="product-visual"><div class="mini-watch"></div></div><div><h3>Xiaomi Watch</h3><p>AMOLED health dashboard with activity rings and smart complications.</p><div class="price">From $149</div></div></article>
+      <article class="product-card"><div class="product-visual"><div class="mini-band"></div></div><div><h3>Smart Band</h3><p>Capsule screen, sleep insights, and lightweight sport tracking.</p><div class="price">From $49</div></div></article>
+      <article class="product-card"><div class="product-visual"><div class="mini-square"></div></div><div><h3>Redmi Watch</h3><p>Large display cards for goals, battery, heart rate, and GPS modes.</p><div class="price">Compare models</div></div></article>
+    </div>
+  </section>
+
+  <section class="section" id="spacing">
+    <div class="section-label">06 / Spacing</div>
+    <h2 class="section-title">Spacing Scale</h2>
+    <div class="spacing-row">
+      <div class="spacing-item"><div class="spacing-block" style="width:8px"></div><div class="spacing-value">8</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:12px"></div><div class="spacing-value">12</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:16px"></div><div class="spacing-value">16</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:24px"></div><div class="spacing-value">24</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:32px"></div><div class="spacing-value">32</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:48px"></div><div class="spacing-value">48</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:64px"></div><div class="spacing-value">64</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:80px"></div><div class="spacing-value">80</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="radius">
+    <div class="section-label">07 / Radius</div>
+    <h2 class="section-title">Watch &amp; Band Geometry</h2>
+    <div class="radius-row">
+      <div class="radius-item"><div class="radius-box" style="border-radius:20px"></div><div class="radius-label">20px widgets</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:24px"></div><div class="radius-label">24px metrics</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:28px"></div><div class="radius-label">28px products</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:999px"></div><div class="radius-label">999px pills</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:50%"></div><div class="radius-label">circle faces</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="elevation">
+    <div class="section-label">08 / Elevation</div>
+    <h2 class="section-title">Screen-Like Depth</h2>
+    <div class="elevation-grid">
+      <div class="elevation-card" style="box-shadow:none;border:1px solid var(--light-border);"><div><div class="elevation-label">Flat</div><div class="elevation-desc">no shadow</div></div></div>
+      <div class="elevation-card" style="box-shadow:var(--shadow-card);"><div><div class="elevation-label">Raised Card</div><div class="elevation-desc">0 12 32</div></div></div>
+      <div class="elevation-card" style="box-shadow:var(--shadow-hover);"><div><div class="elevation-label">Hover</div><div class="elevation-desc">0 18 46</div></div></div>
+      <div class="elevation-card" style="background:var(--amoled);box-shadow:var(--shadow-watch);"><div><div class="elevation-label" style="color:#fff">Watch Hardware</div><div class="elevation-desc">0 30 80</div></div></div>
+      <div class="elevation-card" style="box-shadow:var(--focus-ring);"><div><div class="elevation-label">Focus Glow</div><div class="elevation-desc">orange ring</div></div></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Xiaomi Wearables-inspired token catalog for awesome-design-md</footer>
+
+</body>
+</html>
