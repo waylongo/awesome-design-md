@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System Inspired by Xiaomi - Dark Mode</title>
+<style>
+  @font-face {
+    font-family: 'MiSans';
+    src: local('MiSans'), local('MiSans Latin'), local('Xiaomi Brand');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+  :root {
+    --orange: #ff7a1a;
+    --orange-hover: #ff8b36;
+    --orange-deep: #ff6900;
+    --orange-soft: rgba(255,105,0,0.16);
+    --charcoal: #f5f5f5;
+    --text-secondary: #c7c7c7;
+    --text-muted: #8f8f8f;
+    --text-disabled: #6f6f6f;
+    --white: #1f1f1f;
+    --page-gray: #111111;
+    --surface-warm: #171717;
+    --border: rgba(255,255,255,0.14);
+    --border-soft: rgba(255,255,255,0.10);
+    --success: #17a34a;
+    --warning: #f5a623;
+    --error: #d93025;
+    --hyper-blue: #0b84ff;
+    --silver: #5f646c;
+    --shadow-raised: 0 8px 24px rgba(0,0,0,0.28);
+    --shadow-hover: 0 16px 40px rgba(0,0,0,0.38);
+    --shadow-overlay: 0 24px 64px rgba(0,0,0,0.52);
+    --focus-ring: 0 0 0 4px rgba(255,105,0,0.36);
+    --font-primary: 'MiSans', 'Arial', 'Helvetica Neue', Helvetica, system-ui, sans-serif;
+    --font-mono: SFMono-Regular, 'Roboto Mono', Menlo, ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--page-gray);
+    color: var(--charcoal);
+    font-family: var(--font-primary);
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    background: rgba(17,17,17,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--charcoal);
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .mi-mark {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    background: var(--orange);
+    color: #ffffff;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.16s ease;
+  }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--orange); }
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dark-badge {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 20;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: var(--orange);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: var(--shadow-overlay);
+  }
+  .icon-pill {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--page-gray);
+    color: var(--charcoal);
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .hero {
+    max-width: 1440px;
+    margin: 24px auto 0;
+    padding: 0 24px;
+  }
+  .hero-card {
+    min-height: 560px;
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    align-items: center;
+    gap: 32px;
+    overflow: hidden;
+    padding: 64px;
+    background:
+      radial-gradient(circle at 78% 28%, rgba(255,105,0,0.24), transparent 32%),
+      linear-gradient(135deg, #1f1f1f 0%, #171717 56%, #0c0c0c 100%);
+    border-radius: 32px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--orange-soft);
+    color: var(--orange);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .hero h1 {
+    max-width: 500px;
+    color: var(--charcoal);
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.4px;
+    margin-bottom: 18px;
+  }
+  .hero p {
+    max-width: 480px;
+    color: var(--text-secondary);
+    font-size: 18px;
+    line-height: 1.45;
+    margin-bottom: 28px;
+  }
+  .button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 24px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+  }
+  .btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-orange { background: var(--orange); color: #ffffff; }
+  .btn-orange:hover { background: var(--orange-hover); }
+  .btn-black { background: #ffffff; color: #111111; }
+  .btn-black:hover { background: #e7e7e7; }
+  .btn-ghost { background: transparent; color: var(--orange); border-color: rgba(255,105,0,0.35); }
+  .btn-ghost:hover { background: var(--orange-soft); }
+  .hero-device {
+    position: relative;
+    min-height: 420px;
+    display: grid;
+    place-items: center;
+  }
+  .phone {
+    position: relative;
+    width: min(270px, 48vw);
+    aspect-ratio: 0.48;
+    border-radius: 42px;
+    background: linear-gradient(150deg, #2d2d2d 0%, #0e0e0e 48%, #565656 100%);
+    box-shadow: 0 38px 80px rgba(0,0,0,0.20);
+    border: 10px solid #101010;
+  }
+  .phone::before {
+    content: "";
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    width: 84px;
+    height: 84px;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #111, #4b4b4b);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+  }
+  .phone::after {
+    content: "";
+    position: absolute;
+    inset: 118px 24px 26px;
+    border-radius: 26px;
+    background: linear-gradient(180deg, rgba(255,105,0,0.72), rgba(255,255,255,0.08));
+    opacity: 0.75;
+  }
+  .lens {
+    position: absolute;
+    top: 34px;
+    right: 36px;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 35% 30%, #b9d7ff 0 15%, #111 16% 55%, #555 56%);
+    z-index: 1;
+  }
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+  .section-label {
+    color: var(--orange);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    color: var(--charcoal);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.12;
+    margin-bottom: 28px;
+  }
+  .color-group-label {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 700;
+    margin: 24px 0 12px;
+  }
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+    gap: 14px;
+  }
+  .color-swatch {
+    overflow: hidden;
+    background: var(--white);
+    border: 1px solid var(--border-soft);
+    border-radius: 20px;
+    box-shadow: var(--shadow-raised);
+  }
+  .color-block { height: 78px; }
+  .color-info { padding: 12px 14px 14px; }
+  .color-name { color: var(--charcoal); font-size: 13px; font-weight: 700; }
+  .color-hex { margin-top: 2px; color: var(--text-muted); font-family: var(--font-mono); font-size: 12px; }
+  .color-role { margin-top: 4px; color: var(--text-secondary); font-size: 11px; }
+  .type-sample {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .type-sample:first-of-type { padding-top: 0; }
+  .type-meta {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .control-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+  }
+  .control-card {
+    min-height: 116px;
+    display: grid;
+    place-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: var(--white);
+    border-radius: 24px;
+    box-shadow: var(--shadow-raised);
+    text-align: center;
+  }
+  .control-label {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .product-card {
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px;
+    background: var(--white);
+    border-radius: 28px;
+    box-shadow: var(--shadow-raised);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+  .badge {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    min-height: 26px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--orange-soft);
+    color: var(--orange);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .badge-sale { background: var(--orange); color: #ffffff; }
+  .product-visual {
+    height: 190px;
+    display: grid;
+    place-items: center;
+    margin: 18px 0;
+  }
+  .tile-phone {
+    width: 96px;
+    height: 170px;
+    border-radius: 24px;
+    background: linear-gradient(160deg, #0f0f0f, #5e626a);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+  }
+  .tile-watch {
+    width: 128px;
+    height: 128px;
+    border-radius: 34px;
+    background: linear-gradient(145deg, #111, #3d3d3d);
+    border: 12px solid #2b2b2b;
+    box-shadow: 0 18px 38px rgba(0,0,0,0.14);
+  }
+  .tile-scooter {
+    position: relative;
+    width: 190px;
+    height: 112px;
+  }
+  .tile-scooter::before {
+    content: "";
+    position: absolute;
+    bottom: 34px;
+    left: 28px;
+    width: 126px;
+    height: 8px;
+    border-radius: 999px;
+    background: #303030;
+  }
+  .tile-scooter::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 12px;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    background: #191919;
+    box-shadow: 126px 0 0 #191919, 105px -74px 0 -14px var(--orange);
+  }
+  .product-card h3 {
+    color: var(--charcoal);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.14;
+    text-align: center;
+  }
+  .product-card p {
+    margin-top: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    text-align: center;
+  }
+  .price {
+    margin-top: 14px;
+    color: var(--orange);
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+  }
+  .form-card {
+    padding: 28px;
+    background: var(--white);
+    border-radius: 24px;
+    box-shadow: var(--shadow-raised);
+  }
+  .form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--charcoal);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .field {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 16px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: var(--page-gray);
+    color: var(--charcoal);
+    font: 400 14px/1 var(--font-primary);
+    outline: none;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease;
+  }
+  .field:focus,
+  .field.focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 4px rgba(255,105,0,0.18);
+  }
+  .field.error {
+    border-color: var(--error);
+    box-shadow: 0 0 0 4px rgba(217,48,37,0.14);
+  }
+  .chip-row,
+  .spacing-row,
+  .radius-row,
+  .elevation-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .chip.active {
+    border-color: transparent;
+    background: var(--orange-soft);
+    color: var(--orange);
+  }
+  .spacing-item,
+  .radius-item,
+  .elevation-card {
+    text-align: center;
+  }
+  .spacing-block {
+    height: 32px;
+    margin: 0 auto 8px;
+    border-radius: 999px;
+    background: var(--orange);
+  }
+  .spacing-value,
+  .radius-label,
+  .elevation-desc {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .radius-box {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 8px;
+    background: var(--orange);
+  }
+  .elevation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  }
+  .elevation-card {
+    min-height: 112px;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    background: var(--white);
+    border-radius: 24px;
+  }
+  .elevation-label {
+    color: var(--charcoal);
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .footer {
+    padding: 34px 24px;
+    color: var(--text-muted);
+    text-align: center;
+    font-size: 13px;
+  }
+  @media (max-width: 860px) {
+    .nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 16px; }
+    .hero-card {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding: 42px 24px;
+      border-radius: 28px;
+      text-align: center;
+    }
+    .hero h1 { margin-inline: auto; font-size: 40px; }
+    .hero p { margin-inline: auto; }
+    .button-row { justify-content: center; }
+    .hero-device { min-height: 320px; }
+    .section { padding: 48px 20px; }
+    .section-title { font-size: 30px; }
+    .product-grid,
+    .form-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="dark-badge">Dark Mode</div>
+
+<nav class="nav">
+  <a class="nav-brand" href="#"><span class="mi-mark">mi</span> awesome-design-md</a>
+  <ul class="nav-links">
+    <li><a class="active" href="#colors">Colors</a></li>
+    <li><a href="#typography">Typography</a></li>
+    <li><a href="#buttons">Buttons</a></li>
+    <li><a href="#cards">Cards</a></li>
+    <li><a href="#forms">Forms</a></li>
+    <li><a href="#spacing">Spacing</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="icon-pill" aria-label="Search">S</button>
+    <button class="icon-pill" aria-label="Account">A</button>
+  </div>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="hero-card">
+      <div>
+        <div class="eyebrow">New ecosystem design</div>
+        <h1>Design System Inspired by Xiaomi</h1>
+        <p>A soft, product-first design token catalog built around Mi Orange, rounded retail cards, MiSans-style typography, and calm consumer-tech surfaces.</p>
+        <div class="button-row">
+          <a class="btn btn-orange" href="#">Buy now</a>
+          <a class="btn btn-black" href="#">Learn more</a>
+          <a class="btn btn-ghost" href="#">Compare</a>
+        </div>
+      </div>
+      <div class="hero-device" aria-hidden="true">
+        <div class="phone"><span class="lens"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="colors">
+    <div class="section-label">01 / Colors</div>
+    <h2 class="section-title">Color Palette</h2>
+
+    <div class="color-group-label">Primary</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="color-block" style="background:#ff6900"></div><div class="color-info"><div class="color-name">Mi Orange</div><div class="color-hex">#ff6900</div><div class="color-role">Brand, CTA, active</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#191919"></div><div class="color-info"><div class="color-name">Charcoal</div><div class="color-hex">#191919</div><div class="color-role">Headings, dark CTA</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#ffffff; border-bottom:1px solid #eeeeee"></div><div class="color-info"><div class="color-name">Pure White</div><div class="color-hex">#ffffff</div><div class="color-role">Cards, nav</div></div></div>
+    </div>
+
+    <div class="color-group-label">Surfaces</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="color-block" style="background:#f5f5f5"></div><div class="color-info"><div class="color-name">Page Gray</div><div class="color-hex">#f5f5f5</div><div class="color-role">Page background</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#fafafa"></div><div class="color-info"><div class="color-name">Warm Surface</div><div class="color-hex">#fafafa</div><div class="color-role">Alt sections</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#fff3eb"></div><div class="color-info"><div class="color-name">Soft Orange</div><div class="color-hex">#fff3eb</div><div class="color-role">Badges, filters</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#111111"></div><div class="color-info"><div class="color-name">Dark Graphite</div><div class="color-hex">#111111</div><div class="color-role">Dark mode</div></div></div>
+    </div>
+
+    <div class="color-group-label">Text, Borders, Status</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="color-block" style="background:#595959"></div><div class="color-info"><div class="color-name">Text Secondary</div><div class="color-hex">#595959</div><div class="color-role">Body copy</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#898989"></div><div class="color-info"><div class="color-name">Text Muted</div><div class="color-hex">#898989</div><div class="color-role">Metadata</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#e6e6e6"></div><div class="color-info"><div class="color-name">Border Light</div><div class="color-hex">#e6e6e6</div><div class="color-role">Dividers</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#0b84ff"></div><div class="color-info"><div class="color-name">Hyper Blue</div><div class="color-hex">#0b84ff</div><div class="color-role">Support links</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#17a34a"></div><div class="color-info"><div class="color-name">Success</div><div class="color-hex">#17a34a</div><div class="color-role">Available</div></div></div>
+      <div class="color-swatch"><div class="color-block" style="background:#d93025"></div><div class="color-info"><div class="color-name">Error</div><div class="color-hex">#d93025</div><div class="color-role">Validation</div></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="typography">
+    <div class="section-label">02 / Typography</div>
+    <h2 class="section-title">Typography Scale</h2>
+    <div class="type-sample"><div style="font-size:56px;font-weight:700;line-height:1.05;letter-spacing:-0.4px;">Display Hero</div><div class="type-meta">56px / 700 / 1.05 / -0.4px / MiSans</div></div>
+    <div class="type-sample"><div style="font-size:48px;font-weight:700;line-height:1.08;letter-spacing:-0.24px;">Hero Heading</div><div class="type-meta">48px / 700 / 1.08 / -0.24px / MiSans</div></div>
+    <div class="type-sample"><div style="font-size:36px;font-weight:700;line-height:1.12;">Section Heading</div><div class="type-meta">36px / 700 / 1.12 / normal / MiSans</div></div>
+    <div class="type-sample"><div style="font-size:28px;font-weight:700;line-height:1.14;">Product Tile Heading</div><div class="type-meta">28px / 700 / 1.14 / normal / MiSans</div></div>
+    <div class="type-sample"><div style="font-size:18px;font-weight:400;line-height:1.45;color:var(--text-secondary);">Body Large - Smart devices staged with clear copy, light surfaces, and product-first composition.</div><div class="type-meta">18px / 400 / 1.45 / normal / MiSans</div></div>
+    <div class="type-sample"><div style="font-size:14px;font-weight:700;line-height:1;color:var(--charcoal);">Button / Navigation</div><div class="type-meta">14px / 600-700 / 1.00 / normal / MiSans</div></div>
+    <div class="type-sample"><div style="font-family:var(--font-mono);font-size:13px;font-weight:500;line-height:1.5;">XIAOMI-17-PRO-MAX / 120W HyperCharge</div><div class="type-meta">13px / 500 / 1.50 / monospace specs</div></div>
+  </section>
+
+  <section class="section" id="buttons">
+    <div class="section-label">03 / Buttons &amp; Chips</div>
+    <h2 class="section-title">Controls</h2>
+    <div class="control-panel">
+      <div class="control-card"><a class="btn btn-orange" href="#">Buy now</a><div class="control-label">Primary Orange Pill</div></div>
+      <div class="control-card"><a class="btn btn-black" href="#">Learn more</a><div class="control-label">Black Pill</div></div>
+      <div class="control-card"><a class="btn btn-ghost" href="#">Compare</a><div class="control-label">Ghost Orange</div></div>
+      <div class="control-card"><span class="badge">New</span><div class="control-label">New Badge</div></div>
+      <div class="control-card"><span class="badge badge-sale">Sale</span><div class="control-label">Promo Badge</div></div>
+    </div>
+    <div class="chip-row" style="margin-top:24px;">
+      <span class="chip active">Phones</span>
+      <span class="chip">Wearables</span>
+      <span class="chip">Smart Home</span>
+      <span class="chip">Mobility</span>
+    </div>
+  </section>
+
+  <section class="section" id="cards">
+    <div class="section-label">04 / Product Cards</div>
+    <h2 class="section-title">Rounded Product Tiles</h2>
+    <div class="product-grid">
+      <article class="product-card">
+        <span class="badge">New</span>
+        <div class="product-visual"><div class="tile-phone"></div></div>
+        <div><h3>Xiaomi Phone</h3><p>Flagship camera system with a calm retail card treatment.</p><div class="price">From $799</div></div>
+      </article>
+      <article class="product-card">
+        <span class="badge badge-sale">Bundle</span>
+        <div class="product-visual"><div class="tile-watch"></div></div>
+        <div><h3>Xiaomi Watch</h3><p>Soft graphite surfaces and centered product staging.</p><div class="price">From $199</div></div>
+      </article>
+      <article class="product-card">
+        <span class="badge">Eco</span>
+        <div class="product-visual"><div class="tile-scooter"></div></div>
+        <div><h3>Smart Mobility</h3><p>Simple geometry, light shadows, and orange detail accents.</p><div class="price">Explore models</div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="forms">
+    <div class="section-label">05 / Forms</div>
+    <h2 class="section-title">Search &amp; Inputs</h2>
+    <div class="form-grid">
+      <div class="form-card"><label class="form-label">Product Search</label><input class="field" type="text" placeholder="Search Xiaomi products"></div>
+      <div class="form-card"><label class="form-label">Focused Search</label><input class="field focus" type="text" value="Xiaomi HyperOS"></div>
+      <div class="form-card"><label class="form-label">Delivery Email</label><input class="field error" type="text" value="invalid-email"><div class="control-label" style="text-align:left;margin-top:8px;color:var(--error);">Use a valid email address.</div></div>
+      <div class="form-card"><label class="form-label">Spec Chip Pattern</label><div class="chip-row"><span class="chip active">120W</span><span class="chip">5G</span><span class="chip">Leica</span></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="spacing">
+    <div class="section-label">06 / Spacing</div>
+    <h2 class="section-title">Spacing Scale</h2>
+    <div class="spacing-row">
+      <div class="spacing-item"><div class="spacing-block" style="width:8px"></div><div class="spacing-value">8</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:12px"></div><div class="spacing-value">12</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:16px"></div><div class="spacing-value">16</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:24px"></div><div class="spacing-value">24</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:32px"></div><div class="spacing-value">32</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:48px"></div><div class="spacing-value">48</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:64px"></div><div class="spacing-value">64</div></div>
+      <div class="spacing-item"><div class="spacing-block" style="width:80px"></div><div class="spacing-value">80</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="radius">
+    <div class="section-label">07 / Radius</div>
+    <h2 class="section-title">Shape Language</h2>
+    <div class="radius-row">
+      <div class="radius-item"><div class="radius-box" style="border-radius:14px"></div><div class="radius-label">14px inputs</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:20px"></div><div class="radius-label">20px compact</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:24px"></div><div class="radius-label">24px cards</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:28px"></div><div class="radius-label">28px feature</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:999px"></div><div class="radius-label">999px pills</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="elevation">
+    <div class="section-label">08 / Elevation</div>
+    <h2 class="section-title">Soft Depth</h2>
+    <div class="elevation-grid">
+      <div class="elevation-card" style="box-shadow:none;border:1px solid var(--border-soft);"><div><div class="elevation-label">Flat</div><div class="elevation-desc">No shadow</div></div></div>
+      <div class="elevation-card" style="box-shadow:var(--shadow-raised);"><div><div class="elevation-label">Raised</div><div class="elevation-desc">0 8 24 / 4%</div></div></div>
+      <div class="elevation-card" style="box-shadow:var(--shadow-hover);"><div><div class="elevation-label">Hover</div><div class="elevation-desc">0 16 40 / 8%</div></div></div>
+      <div class="elevation-card" style="box-shadow:var(--shadow-overlay);"><div><div class="elevation-label">Overlay</div><div class="elevation-desc">0 24 64 / 14%</div></div></div>
+      <div class="elevation-card" style="box-shadow:var(--focus-ring);"><div><div class="elevation-label">Focus</div><div class="elevation-desc">orange ring</div></div></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Xiaomi-inspired token catalog for awesome-design-md</footer>
+
+</body>
+</html>
