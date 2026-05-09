@@ -165,6 +165,9 @@ This fork is intended for continued development from the preserved file-based ve
 - [**SpaceX**](https://github.com/waylongo/awesome-design-md/tree/main/design-md/spacex/) - Space technology. Stark black and white, full-bleed imagery, futuristic
 - [**Spotify**](https://github.com/waylongo/awesome-design-md/tree/main/design-md/spotify/) - Music streaming. Vibrant green on dark, bold type, album-art-driven
 - [**Uber**](https://github.com/waylongo/awesome-design-md/tree/main/design-md/uber/) - Mobility platform. Bold black and white, tight type, urban energy
+
+### Xiaomi Ecosystem
+
 - [**Xiaomi**](https://github.com/waylongo/awesome-design-md/tree/main/design-md/xiaomi/) - Consumer electronics. Mi Orange accent, rounded product tiles, soft retail surfaces
 - [**Xiaomi Wearables**](https://github.com/waylongo/awesome-design-md/tree/main/design-md/xiaomi-wearables/) - Wearable devices. AMOLED dashboards, health metrics, sport chips, activity rings
 
